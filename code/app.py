@@ -7,13 +7,21 @@ import json
 import logging
 import oss2
 from auth import auth_login, require_login
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 
-endpoint = os.environ['OSS_ENDPOINT']
-auth = oss2.StsAuth(os.environ['ALIBABA_CLOUD_ACCESS_KEY_ID'], os.environ['ALIBABA_CLOUD_ACCESS_KEY_SECRET'],
-                    os.environ['ALIBABA_CLOUD_SECURITY_TOKEN'])
+# endpoint = os.environ['OSS_ENDPOINT']
+# auth = oss2.StsAuth(os.environ['ALIBABA_CLOUD_ACCESS_KEY_ID'], os.environ['ALIBABA_CLOUD_ACCESS_KEY_SECRET'],
+#                     os.environ['ALIBABA_CLOUD_SECURITY_TOKEN'])
+# bucket = oss2.Bucket(auth, endpoint, os.environ['OSS_BUCKET'])
+
+endpoint = f"https://{os.environ['OSS_ENDPOINT']}"
+auth = oss2.Auth(os.environ['ALIBABA_CLOUD_ACCESS_KEY_ID'], os.environ['ALIBABA_CLOUD_ACCESS_KEY_SECRET'])
 bucket = oss2.Bucket(auth, endpoint, os.environ['OSS_BUCKET'])
+
 
 
 app.config['UPLOAD_FOLDER'] = './'
